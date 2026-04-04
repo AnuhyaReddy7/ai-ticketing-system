@@ -104,9 +104,9 @@ npm install @mui/material @emotion/react @emotion/styled
 
 # Optional icons
 npm install @mui/icons-material
+The app will be available at `http://localhost:3000
+```
 
-
-The app will be available at `http://localhost:3000`.
 
 ---
 
@@ -118,6 +118,7 @@ DATABASE_URL=sqlite:///./tickets.db
 JWT_SECRET=your_secret_key
 REACT_APP_BASE_URL= url.
 ESCALATION_HOURS=2
+```
 
 ### API Reference
 
