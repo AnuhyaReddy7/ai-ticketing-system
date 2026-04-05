@@ -31,13 +31,6 @@ const request = (url, options = {}) =>
 export const getTickets = () =>
   request("/tickets");
 
-// ✅ FIXED: sends JSON body instead of query param
-export const createTicket = (description) =>
-  request("/ticket", {
-    method: "POST",
-    body: JSON.stringify({ description }),
-  });
-
 // -------------------------
 // STATUS UPDATE
 // -------------------------
@@ -90,4 +83,14 @@ export const getAnalytics = () =>
 // -------------------------
 export const getEmployees = async () => {
   return await request("/employees");
+};
+
+export const createTicket = async (description) => {
+  const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ticket`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ description }),
+  });
+  if (!res.ok) throw new Error("Failed to create ticket");
+  return res.json();
 };
