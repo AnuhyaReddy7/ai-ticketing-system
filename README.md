@@ -9,10 +9,8 @@ The Advanced AI Ticketing System is a smart internal support platform that uses 
 - [⚙️ Setup Instructions](#-setup-instructions)
 - [🔐 Environment Variables](#-environment-variables)
 - [🔗 API Reference](#-api-reference)
-- [🧠 AI & Prompt Design](#-ai--prompt-design)
 - [📦 Module Breakdown](#-module-breakdown)
 - [⚠️ Known Limitations](#-known-limitations)
-- [🔮 Future Improvements](#-future-improvements)
 
 
 ## Overview
