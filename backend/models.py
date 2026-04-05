@@ -74,12 +74,21 @@ class TicketNote(Base):
 class Employee(Base):
     __tablename__ = "employees"
 
-    id                   = Column(Integer, primary_key=True, index=True)
-    name                 = Column(String)
-    email                = Column(String, unique=True)
-    department           = Column(String)
-    role                 = Column(String)
-    skills               = Column(String)        # stored as comma-separated: "Server,DB"
-    avg_resolution_time  = Column(String)
-    load                 = Column(Integer, default=0)
-    availability         = Column(String, default="Available")
+    id = Column(Integer, primary_key=True, index=True)
+
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+
+    department = Column(String, default="General")
+    role = Column(String, default="Employee")
+
+    # ✅ Store as comma-separated but ensure not null
+    skills = Column(String, default="")
+
+    # ✅ Keep consistent type (string for UI like "3 hours")
+    avg_resolution_time = Column(String, default="N/A")
+
+    # ✅ Prevent null issues
+    load = Column(Integer, default=0, nullable=False)
+
+    availability = Column(String, default="Available", nullable=False)

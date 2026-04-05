@@ -72,7 +72,7 @@ const Employees = () => {
       {/* GRID */}
       <Grid container spacing={2}>
         {employees.map((emp) => {
-          const style = statusColor(emp.availability);
+          const style = statusColor(emp.availability || "Unknown");
 
           return (
             <Grid item xs={12} md={4} key={emp.id}>

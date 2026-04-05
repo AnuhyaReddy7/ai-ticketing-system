@@ -89,12 +89,5 @@ export const getAnalytics = () =>
 // EMPLOYEES
 // -------------------------
 export const getEmployees = async () => {
-  try {
-    return await request("/employees");
-  } catch {
-    return [
-      { id: 1, name: "Anjali Sharma", role: "Support", status: "Active" },
-      { id: 2, name: "Rahul Verma", role: "Developer", status: "Offline" },
-    ];
-  }
+  return await request("/employees");
 };

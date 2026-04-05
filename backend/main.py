@@ -108,30 +108,48 @@ seed_employees()
 # HELPERS
 # =========================
 def emp_to_dict(e: Employee):
+
+    # 🔥 AUTO CALCULATE STATUS FROM LOAD
+    if e.load is None:
+        load = 0
+    else:
+        load = e.load
+
+    if load <= 1:
+        availability = "Available"
+    elif load <= 3:
+        availability = "Busy"
+    else:
+        availability = "Overloaded"
+
     return {
-        "id":                  e.id,
-        "name":                e.name,
-        "email":               e.email,
-        "department":          e.department,
-        "role":                e.role,
-        "skills":              e.skills.split(",") if e.skills else [],
-        "avg_resolution_time": e.avg_resolution_time,
-        "load":                e.load,
-        "availability":        e.availability,
+        "id": e.id,
+        "name": e.name,
+        "email": e.email,
+        "department": e.department,
+        "role": e.role,
+        "skills": [s.strip() for s in e.skills.split(",")] if e.skills else [],
+        "avg_resolution_time": e.avg_resolution_time or "N/A",
+        "load": load,
+        "availability": availability   # ✅ NOW DYNAMIC
     }
 
 def assign_employee(category: str, db: Session):
     best = None
+
     for emp in db.query(Employee).all():
-        skills = emp.skills.split(",") if emp.skills else []
-        if category not in skills:
+        skills = [s.strip().lower() for s in emp.skills.split(",")] if emp.skills else []
+
+        # ✅ FIX: case-insensitive match
+        if category.lower() not in skills:
             continue
+
         if emp.availability == "Busy":
             continue
-        if best is None:
+
+        if best is None or emp.load < best.load:
             best = emp
-        elif emp.load < best.load:
-            best = emp
+
     return best
 
 def send_notification(ticket_id: int, message: str):
@@ -387,13 +405,16 @@ def ticket_feedback(ticket_id: int, payload: FeedbackModel, db: Session = Depend
 def analytics(db: Session = Depends(get_db)):
     tickets = db.query(Ticket).all()
     total   = len(tickets)
+
     dept_counter = Counter(t.department for t in tickets if t.department)
 
-    success_rate = 0.0
-    if feedback_store:
-        success_rate = round(
-            len([f for f in feedback_store if f["helpful"]]) / len(feedback_store) * 100, 2
-        )
+    # ✅ FIXED LOGIC HERE
+    auto_resolved = len([
+        t for t in tickets
+        if t.assignee == "AI System"
+    ])
+
+    success_rate = round((auto_resolved / total) * 100, 2) if total > 0 else 0
 
     return {
         "total_tickets": total,
@@ -402,7 +423,7 @@ def analytics(db: Session = Depends(get_db)):
             "open":     len([t for t in tickets if t.status in ["New", "Assigned", "In Progress"]]),
             "pending":  len([t for t in tickets if t.status == "Pending Info"]),
         },
-        "auto_resolution_success_rate": success_rate,
+        "auto_resolution_success_rate": success_rate,  # ✅ now correct
         "department_load": [
             {"department": d, "tickets": c} for d, c in dept_counter.most_common()
         ],
@@ -411,4 +432,5 @@ def analytics(db: Session = Depends(get_db)):
 # ── EMPLOYEES ─────────────────────────────────────
 @app.get("/employees")
 def get_employees(db: Session = Depends(get_db)):
-    return [emp_to_dict(e) for e in db.query(Employee).all()]
+    employees = db.query(Employee).all()
+    return [emp_to_dict(e) for e in employees]
