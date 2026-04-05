@@ -76,22 +76,23 @@ export default function Analytics() {
       {
         label: "Tickets",
         data: data.department_load.map((d) => d.tickets),
-        backgroundColor: "#f59e0b",
+        backgroundColor: ["#f59e0b", "#4ade80", "#f87171", "#60a5fa"],
         borderRadius: 6,
       },
     ],
   };
 
   const doughnutData = {
-    labels: ["Open", "Resolved", "Pending"],
+    labels: ["Open", "Resolved", "Pending", "Escalated"],
     datasets: [
       {
         data: [
-          data.status.open,
-          data.status.resolved,
-          data.status.pending,
+        data.status?.open ?? 0,
+        data.status?.resolved ?? 0,
+        data.status?.pending ?? 0,
+        data.status?.escalated ?? 0
         ],
-        backgroundColor: ["#f59e0b", "#4ade80", "#f87171"],
+        backgroundColor: ["#f59e0b", "#4ade80", "#f87171", "#60a5fa"],
         borderWidth: 0,
       },
     ],
@@ -125,7 +126,7 @@ export default function Analytics() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(5, 1fr)",
           gap: 12,
           marginBottom: 20,
         }}
@@ -137,17 +138,22 @@ export default function Analytics() {
 
         <Card>
           <div style={{ color: T.muted }}>Open</div>
-          <h2 style={{ color: "#f59e0b" }}>{data.status.open}</h2>
+          <h2 style={{ color: "#f59e0b" }}>{data.status?.open ?? 0}</h2>
         </Card>
 
         <Card>
           <div style={{ color: T.muted }}>Resolved</div>
-          <h2 style={{ color: "#4ade80" }}>{data.status.resolved}</h2>
+          <h2 style={{ color: "#4ade80" }}>{data.status?.resolved ?? 0}</h2>
         </Card>
 
         <Card>
           <div style={{ color: T.muted }}>Pending</div>
-          <h2 style={{ color: "#f87171" }}>{data.status.pending}</h2>
+          <h2 style={{ color: "#f87171" }}>{data.status?.pending ?? 0}</h2>
+        </Card>
+
+        <Card>
+          <div style={{ color: T.muted }}>Escalated</div>
+          <h2 style={{ color: "#71cdf8" }}>{data.status?.escalated ?? 0}</h2>
         </Card>
       </div>
 

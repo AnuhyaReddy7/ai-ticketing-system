@@ -6,22 +6,47 @@ from models import Ticket
 scheduler = BackgroundScheduler()
 
 def escalate_tickets():
+    print("ESCALATION JOB TRIGGERED")
+
     db = SessionLocal()
 
-    cutoff = datetime.utcnow() - timedelta(hours=2)
+    # 👇 ADD THESE LINES HERE
+    print("TOTAL TICKETS:", db.query(Ticket).count())
 
-    tickets = db.query(Ticket).filter(
-        Ticket.severity.in_(["High", "Critical"]),
-        Ticket.status == "New",
-        Ticket.created_at <= cutoff
-    ).all()
+    print("NEW HIGH TICKETS:",
+          db.query(Ticket).filter(
+              Ticket.severity.in_(["High", "Critical"]),
+              Ticket.status == "New"
+          ).count()
+    )
 
-    for t in tickets:
-        t.status = "Assigned"
-        t.assignee = "Escalation-Bot"
+    try:
+        cutoff = datetime.utcnow() - timedelta(hours=2)
 
-    db.commit()
-    db.close()
+        tickets = db.query(Ticket).filter(
+            Ticket.severity.in_(["High", "Critical"]),
+            Ticket.status == "New",
+            Ticket.created_at <= cutoff,
+            Ticket.assignee != "Escalation-Bot"
+        ).all()
+
+        count = len(tickets)
+
+        if count == 0:
+            print("No tickets to escalate")
+            return 0
+
+        for t in tickets:
+            t.status = "Escalated"
+            t.assignee = "Escalation-Bot"
+
+        db.commit()
+
+        print(f"Escalated {count} tickets")
+        return count
+
+    finally:
+        db.close()
+
 
 scheduler.add_job(escalate_tickets, "interval", minutes=10)
-scheduler.start()

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from datetime import datetime
 from collections import Counter
+from scheduler import scheduler, escalate_tickets
 
 from pydantic import BaseModel
 
@@ -434,3 +435,17 @@ def analytics(db: Session = Depends(get_db)):
 def get_employees(db: Session = Depends(get_db)):
     employees = db.query(Employee).all()
     return [emp_to_dict(e) for e in employees]
+
+@app.on_event("startup")
+def start_scheduler():
+    print("SCHEDULER STARTED 🚀")
+
+    scheduler.add_job(
+        escalate_tickets,
+        "interval",
+        minutes=10,
+        id="escalation_job",
+        replace_existing=True
+    )
+
+    scheduler.start()
