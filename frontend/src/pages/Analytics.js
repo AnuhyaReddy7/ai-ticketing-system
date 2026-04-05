@@ -54,7 +54,7 @@ export default function Analytics() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/analytics")
+    fetch(`${process.env.REACT_APP_BASE_URL}/analytics`)
       .then((res) => res.json())
       .then((res) => setData(res))
       .catch((err) => console.error("Fetch error:", err));
