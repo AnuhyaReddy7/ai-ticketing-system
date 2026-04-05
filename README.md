@@ -136,15 +136,36 @@ ESCALATION_HOURS=2
 | `GET` | `/analytics` | Full analytics payload for dashboard |
 
 <img width="1913" height="939" alt="image" src="https://github.com/user-attachments/assets/38ca1023-0ee0-4aed-895d-0d3268880d9c" />
-<img width="1907" height="880" alt="image" src="https://github.com/user-attachments/assets/2cf19753-3677-4d17-9001-020c3fe4d520" />
+
+---
+<img width="1913" height="1079" alt="image" src="https://github.com/user-attachments/assets/bc030e60-a347-493b-8862-87b114a99be2" />
+
+----
+
 <img width="1918" height="879" alt="image" src="https://github.com/user-attachments/assets/12dab33c-9772-4f36-9175-529b0671e42b" />
+
+---
+
 <img width="1915" height="856" alt="image" src="https://github.com/user-attachments/assets/cf922502-103a-4362-96ac-2944792efdd6" />
+
+----
+
 <img width="1901" height="867" alt="image" src="https://github.com/user-attachments/assets/578069e0-f237-4fb8-b6cb-35b5c8f9fa11" />
+
+---
+
 <img width="1919" height="852" alt="image" src="https://github.com/user-attachments/assets/ef9b2253-d2a7-4578-b70b-64d5b59b39c4" />
+
+----
+
 <img width="1814" height="849" alt="image" src="https://github.com/user-attachments/assets/16135f5d-6bcf-44da-84ee-bef25f51c84e" />
-<img width="1868" height="864" alt="image" src="https://github.com/user-attachments/assets/717cede8-ef2b-430d-8169-df6d27224f7b" />
+
+---
+
+<img width="1885" height="1079" alt="image" src="https://github.com/user-attachments/assets/0b94b972-6d48-4900-a8cd-0aa72538598f" />
 
 
+---
 
 ## Known Limitations
 
