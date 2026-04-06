@@ -116,8 +116,8 @@ const T = {
 // ─── NAV ─────────────────────────────────────────────
 const NAV = [
   { id: "dashboard", label: "Dashboard", icon: "▦" },
-  { id: "tickets", label: "Tickets", icon: "🎫" },
   { id: "create-ticket", label: "Create Ticket",  icon: "✍️" },
+  { id: "tickets", label: "Tickets", icon: "🎫" },
   { id: "employees", label: "Employees", icon: "👥" },
   { id: "analytics", label: "Analytics", icon: "📊" },
 ];
